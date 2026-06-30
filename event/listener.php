@@ -290,6 +290,58 @@ class listener implements EventSubscriberInterface
 
 				return $this->language->lang('URL_UNAUTHED', $type, $matched_url);
 			}
+
+			//  ============= added words check ==============================================
+			$word_list = $this->config_text->get_array([
+				'authforwords',
+			]);
+
+			// get the allowed word count
+			$allowed_word_count = (int) $this->config['authforwordcnt'];
+
+			// convert the string to an array
+			$word_list = explode(',', $word_list['authforwords']);
+			// remove spaces
+			$word_list = array_map('trim', $word_list);
+			// convert the array back into a string
+			$word_list = implode('|', $word_list);
+			// convert wildcards to regex
+			$word_list = str_replace('*', '\w*', $word_list);
+			$word_list = str_replace('?', '\w', $word_list);
+
+			// Check if any words needs testing
+			// Skip check when allowedwords is 0
+ 			if (trim($word_list) === '' || $allowed_word_count < 1) {
+				return false;
+			}
+
+			// check the whole darn thang now for any WORD's
+			// at least those that >seem< to match from the array
+			// and have not been excluded above
+			$matchCount = preg_match_all("#(?<![A-Za-z0-9_])($word_list)(?![A-Za-z0-9_])#i", $check_text, $match_word);
+			// we have a match..uhoh, someone's being naughty
+			// $matchtxt = implode('|', $match_word);
+			// time to slap 'em up side the head and array entries are > 2
+
+			if (!empty(array_keys($match_word[0])) && $matchCount > $allowed_word_count)
+			{
+				$this->language->add_lang('common', 'rmcgirr83/authorizedforurls');
+				// Fill string with unique matched words and their count
+				$counts = array_count_values(array_map('strtolower', $match_word[0]));
+				$matchtxt="";
+				// $matchtxt = implode('|', array_map(
+				// 	fn($word, $count) => "$word=$count",
+				// 	array_keys($counts),
+				// 	$counts
+				// ));
+
+				if ($return_lang_args)
+				{
+					return array('WORD_UNAUTHED', $matchCount, $matchtxt);
+				}
+
+				return $this->language->lang('WORD_UNAUTHED', $matchCount, $matchtxt);
+			}
 		}
 
 		return false;

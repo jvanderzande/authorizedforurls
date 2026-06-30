@@ -51,6 +51,8 @@ class v_100 extends \phpbb\db\migration\migration
 		}
 
 		$data[] = ['config_text.add', ['authforurl_tlds', $this->tlds()]];
+		$data[] = ['config_text.add', ['authforwords', "shein,coupons,gamb"]];
+		$data[] = ['config.add', ['authforwordcnt', 2]];
 		$data[] = ['config.add', ['authforurl_img_bbcode', true]];
 		$data[] = ['config.add', ['authforurl_email', true]];
 		$data[] = ['module.add', ['acp', 'ACP_CAT_DOT_MODS', 'AFU_ACP_TITLE']];

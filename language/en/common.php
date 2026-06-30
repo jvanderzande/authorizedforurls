@@ -39,6 +39,7 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, [
 	'URL_UNAUTHED'		=> 'You can’t post %1$s links that are external to this domain.  Please remove <em>%2$s</em>',
+	'WORD_UNAUTHED'		=> 'We found %1$s suspicious words, so can\'t allow this post.<br>%2$s',
 	'AUTHED_FOR_EMAIL'	=> 'You can post email links<br>',
 	'AUTHED_FOR_IMAGES'	=> 'You can post image links using the img bbcode tag<br>',
 	'AUTHED_URL'		=> 'url',

@@ -34,6 +34,14 @@
 				<input type="radio" class="radio" name="authforurl_deny_post" value="0" <!-- IF not AFU_DENY_POST -->checked="checked"<!-- ENDIF --> /> {L_NO}</dd>
 		</dl>
 		<dl>
+			<dt><label>{L_AFU_WORDCNT}{L_COLON}</label><br><span>{L_AFU_WORDCNT_EXPLAIN}</span></dt>
+			<dd><input type="number" name="authforwordcnt" min="0" max="30" value="{AFU_WORDCNT}"/>
+		</dl>
+		<dl>
+			<dt><label>{L_AFU_WORDS}{L_COLON}</label><br><span>{L_AFU_WORDS_EXPLAIN}</span></dt>
+			<dd><textarea name="authforwords" rows="6" cols="60" style="width: 95%;">{AFU_WORDS}</textarea></dd>
+		</dl>
+		<dl>
 			<dt><label>{L_AFU_TLDS}{L_COLON}</label><br><span>{L_AFU_TLDS_EXPLAIN}</span></dt>
 			<dd><textarea name="authforurl_tlds" rows="10" cols="60" style="width: 95%;">{AFU_TLDS}</textarea></dd>
 		</dl>

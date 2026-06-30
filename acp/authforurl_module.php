@@ -46,6 +46,27 @@ class authforurl_module
 		// put the array back into a string
 		$authurl_array = implode(',', $authurl_array);
 
+
+		$authforwords_data = $config_text->get_array([
+			'authforwords',
+		]);
+
+		//convert the string to an array
+		if (isset($authforwords_data['authforwords'])) {
+			$authwords_array = explode(',', $authforwords_data['authforwords']);
+		} else {
+			$authwords_array = ["coupon*", "gambl*", "cheap*", "discount*", "buy*", "rabat*", "shein", "temu"];
+		}
+
+		// remove spaces
+		$authwords_array = array_map('trim', $authwords_array);
+
+		//sort the array
+		sort($authwords_array);
+
+		// put the array back into a string
+		$authwords_array = implode(',', $authwords_array);
+
 		if ($request->is_set_post('submit'))
 		{
 			if (!check_form_key($form_name))
@@ -63,6 +84,12 @@ class authforurl_module
 					'authforurl_tlds'			=> $request->variable('authforurl_tlds', '', true),
 				]);
 
+				$config_text->set_array([
+					'authforwords'			=> $request->variable('authforwords', '', true),
+				]);
+
+				$config->set('authforwordcnt', $request->variable('authforwordcnt', 3));
+
 				trigger_error($language->lang('AFU_SAVED') . adm_back_link($this->u_action));
 			}
 		}
@@ -73,6 +100,8 @@ class authforurl_module
 			'AFU_EMAIL'			=> $config['authforurl_email'],
 			'AFU_DENY_POST'		=> $config['authforurl_deny_post'],
 			'AFU_TLDS'			=> $authurl_array,
+			'AFU_WORDS'			=> $authwords_array,
+			'AFU_WORDCNT'		=> $config['authforwordcnt'],
 
 			'U_ACTION'			=> $this->u_action,
 		]);
