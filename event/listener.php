@@ -329,6 +329,8 @@ class listener implements EventSubscriberInterface
 				// Fill string with unique matched words and their count
 				$counts = array_count_values(array_map('strtolower', $match_word[0]));
 				$matchtxt="";
+				// //## Development: Add Words that are found and their counts for development purposes
+				// //## This is displayed with option: If a match is found should the post be denied - Yes
 				// $matchtxt = implode('|', array_map(
 				// 	fn($word, $count) => "$word=$count",
 				// 	array_keys($counts),
